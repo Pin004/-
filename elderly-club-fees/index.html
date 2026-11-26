@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>บันทึกค่าสมาชิกชมรมผู้สูงอายุ</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap">
+<style>
+:root{--bg:#f6f3ec;--card:#fff;--tx:#2b2b2b;--mut:#6b6b6b;--pri:#2f7d5b;--pri-tx:#fff;--bd:#ddd6c8;--dan:#b3402f;--hl:#eaf4ee;--warn:#fff4d6;--warn-tx:#6b4e00;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#1b1e1c;--card:#262a28;--tx:#f0efe9;--mut:#a8a8a0;--pri:#4fae85;--pri-tx:#10201a;--bd:#3a403c;--dan:#e57a69;--hl:#23352d;--warn:#3a3217;--warn-tx:#f1d88a}}
+:root[data-theme="dark"]{--bg:#1b1e1c;--card:#262a28;--tx:#f0efe9;--mut:#a8a8a0;--pri:#4fae85;--pri-tx:#10201a;--bd:#3a403c;--dan:#e57a69;--hl:#23352d;--warn:#3a3217;--warn-tx:#f1d88a}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font-family:'Sarabun','Noto Sans Thai',Tahoma,sans-serif;font-size:var(--fs,18px);line-height:1.5}
+main{max-width:980px;margin:0 auto;padding:16px}
+h1{font-size:1.6rem;margin:8px 0 4px;color:var(--pri)}
+h2{margin:0 0 10px;font-size:1.2rem;color:var(--pri)}
+.sub{color:var(--mut);margin:0 0 12px}
+.tabs{display:flex;gap:8px;margin:0 0 16px;flex-wrap:wrap}
+.tabs button{flex:1;min-width:130px;background:transparent;color:var(--tx);border:1.5px solid var(--bd)}
+.tabs button.on{background:var(--pri);color:var(--pri-tx);border-color:var(--pri)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:16px;margin-bottom:16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+.full{grid-column:1/-1}
+.np .grid{grid-template-columns:1fr 1fr}
+.np .grid>div{min-width:0}
+label{display:block;font-weight:600;margin-bottom:4px}
+input,select,textarea{width:100%;font:inherit;padding:10px 12px;border:1.5px solid var(--bd);border-radius:10px;background:var(--bg);color:var(--tx)}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--pri);outline-offset:0}
+button{font:inherit;font-weight:600;border:0;border-radius:10px;padding:10px 18px;cursor:pointer;background:var(--pri);color:var(--pri-tx)}
+button.sec{background:transparent;color:var(--tx);border:1.5px solid var(--bd)}
+button.del{background:transparent;color:var(--dan);border:1.5px solid var(--dan)}
+button.sm{padding:6px 12px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.mrow{border:1.5px dashed var(--bd);border-radius:12px;padding:12px;margin-top:12px}
+.mh{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin-bottom:8px;color:var(--pri)}
+.stats{display:flex;gap:12px;flex-wrap:wrap}
+.stat{flex:1;min-width:140px;background:var(--hl);border-radius:12px;padding:12px 16px}
+.stat b{display:block;font-size:1.5rem;color:var(--pri)}
+.stat.r b{color:var(--dan)}
+.wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:620px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--bd);text-align:left}
+th{color:var(--mut);font-size:.95rem}
+td.n,th.n{text-align:right}
+td.c,th.c{text-align:center}
+.empty{text-align:center;color:var(--mut);padding:24px}
+.b{display:inline-block;padding:2px 12px;border-radius:99px;font-size:.9rem;font-weight:600;white-space:nowrap}
+.b.p{background:var(--hl);color:var(--pri)}
+.b.u{color:var(--dan);border:1.5px solid var(--dan)}
+.b.g{color:var(--mut);border:1.5px solid var(--mut)}
+.chk{width:48px;height:48px;padding:0;font-size:1.6rem;line-height:1;border-radius:10px;border:2.5px solid var(--dan);background:transparent;color:var(--dan)}
+.chk.on{border-color:var(--pri);background:var(--pri);color:var(--pri-tx)}
+.pd{width:auto;padding:6px 8px}
+.pdt{display:none}
+.legend{color:var(--mut);margin:12px 0 0}
+a.tel{color:var(--pri);font-weight:600}
+.pager{display:flex;gap:10px;align-items:center;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.pager button:disabled{opacity:.4;cursor:default}
+.bar{height:14px;background:var(--pri);border-radius:7px;min-width:2px}
+.sel{width:24px;height:24px;padding:0;accent-color:var(--pri)}
+td.sc,th.sc{width:44px;text-align:center}
+@media screen and (max-width:640px){
+table.rt{min-width:0!important}
+table.rt thead{display:none}
+table.rt tr{display:block;border:1px solid var(--bd);border-radius:12px;padding:8px 12px;margin-bottom:10px}
+table.rt td{display:flex;justify-content:space-between;align-items:center;gap:12px;border:0;padding:5px 0;text-align:right}
+table.rt td::before{content:attr(data-l);font-weight:600;color:var(--mut);text-align:left}
+table.rt td.empty::before,table.rt td.sc:empty{content:none;display:none}
+table.rt td[data-l="กราฟ"]{display:none}
+table.rt tfoot tr{display:flex;justify-content:space-between;border:0}
+table.rt tfoot th:empty{display:none}
+table.rt tfoot th{border:0}
+}
+.msg{color:var(--dan);min-height:1.4em;margin-top:8px}
+.ok{color:var(--pri)}
+.warn{background:var(--warn);color:var(--warn-tx);border-radius:12px;padding:10px 14px;margin-bottom:16px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.warn[hidden],.pg[hidden],#receipt[hidden],.rbar[hidden]{display:none!important}
+.confirm{margin-top:12px;border:1.5px solid var(--dan);border-radius:12px;padding:12px}
+.rhead,.sign,.rtitle{display:none}
+.sign{grid-template-columns:repeat(3,1fr);gap:24px;margin-top:56px;text-align:center}
+.sign div{border-top:1px solid var(--tx);padding-top:6px}
+.rl{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+body.locked main>*:not(#login){display:none!important}
+body:not(.locked) #login{display:none}
+body.rcp main>*:not(#receipt){display:none!important}
+body.rpt .noprint,body.rpt h1,body.rpt .sub{display:none!important}
+body.rpt .rhead{display:block;text-align:center;margin-bottom:12px}
+body.rpt .rtitle{display:block}
+body.rpt .sign{display:grid}
+.rbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--hl);border:1px solid var(--bd);border-radius:12px;padding:10px 14px;margin-bottom:12px}
+@media print{body{background:#fff;color:#000}.noprint,.rbar,h1,.sub,.warn{display:none!important}.card{border:0;padding:0}.chk{border-color:#000;color:#000;background:#fff!important}.pdt{display:inline}.pd{display:none}.rtitle{display:block}.rhead{display:block;text-align:center;margin-bottom:12px}.sign{display:grid}.sign div{border-color:#000}}
+</style>
+</head>
+<body class="locked">
+<main>
+<section id="login" class="card" style="max-width:420px;margin:32px auto">
+  <h1 id="ltitle">🔐 เข้าสู่ระบบ</h1>
+  <p class="sub" id="lsub"></p>
+  <label for="lemail">อีเมล</label><input id="lemail" type="email" autocomplete="username">
+  <div style="margin-top:12px"><label for="lpw">รหัสผ่าน</label><input id="lpw" type="password" autocomplete="current-password"></div>
+  <div id="lpw2w" style="margin-top:12px" hidden><label for="lpw2">ยืนยันรหัสผ่าน</label><input id="lpw2" type="password" autocomplete="new-password"></div>
+  <div class="row"><button id="lgo" type="button">เข้าสู่ระบบ</button></div>
+  <div id="lmsg" class="msg" role="alert"></div>
+  <div class="row" id="lforgetw"><button id="lforget" type="button" class="sec sm">ลืมรหัสผ่าน?</button></div>
+  <div id="lreset" class="confirm" hidden>
+    <p style="margin:0 0 10px">การรีเซ็ตจะ<b style="color:var(--dan)">ลบรหัสผ่านและข้อมูลทั้งหมดในเครื่องนี้</b> และกู้คืนไม่ได้ หากเคยสำรองข้อมูลไว้ (ไฟล์ .json) จะนำเข้ากลับได้หลังตั้งรหัสผ่านใหม่</p>
+    <button id="lyes" type="button" class="del sm">ยืนยันรีเซ็ต</button> <button id="lno" type="button" class="sec sm">ยกเลิก</button>
+  </div>
+</section>
+
+<div class="rbar" id="rbar" hidden><span style="flex:1;min-width:200px">หน้ารายงานสำหรับพิมพ์ — ถ้าหน้าต่างพิมพ์ไม่ขึ้น ให้กด Ctrl+P (Mac: ⌘+P) หรือเปิดลิงก์นี้ในแท็บใหม่แล้วกดพิมพ์</span><button type="button" id="rprint">🖨️ พิมพ์</button><button type="button" class="sec" id="rback">← กลับ</button></div>
+<h1>🌿 บันทึกค่าสมาชิกชมรมผู้สูงอายุ</h1>
+<p class="sub">ข้อมูลถูกเก็บไว้ในเครื่องที่ใช้งานนี้ (เบราว์เซอร์) เท่านั้น</p>
+<div class="warn noprint" id="bkwarn" hidden><span id="bkwarntx" style="flex:1;min-width:200px"></span><button type="button" class="sm" id="bkgo">สำรองข้อมูลตอนนี้</button></div>
+<div class="tabs noprint">
+  <button type="button" id="tab-members" class="on">📝 สมาชิก</button>
+  <button type="button" id="tab-payments">✅ ตรวจสอบการชำระเงิน</button>
+  <button type="button" id="tab-summary">📊 สรุปรายเดือน</button>
+  <button type="button" id="tab-settings">⚙️ ตั้งค่า / สำรองข้อมูล</button>
+  <button type="button" id="fsm" style="flex:0 0 auto;min-width:0" aria-label="ลดขนาดตัวอักษร">ก-</button>
+  <button type="button" id="fsp" style="flex:0 0 auto;min-width:0;font-size:1.2em" aria-label="เพิ่มขนาดตัวอักษร">ก+</button>
+  <button type="button" id="logout" style="flex:0 0 auto;min-width:0">🔒 ออกจากระบบ</button>
+</div>
+
+<div id="pg-members" class="pg">
+  <section class="card">
+    <div id="rows"></div>
+    <div class="row">
+      <button id="add" class="sec" type="button">➕ เพิ่มสมาชิกอีกคน</button>
+      <button id="save" type="button">บันทึกทั้งหมด</button>
+      <button id="cancel" class="sec" type="button" hidden>ยกเลิกการแก้ไข</button>
+    </div>
+    <div id="msg" class="msg" role="alert"></div>
+  </section>
+  <section class="card">
+    <div class="row" style="margin-top:0"><input id="q1" placeholder="🔍 ค้นหาชื่อ นามสกุล หรือบ้านเลขที่" style="flex:1;min-width:200px"><select id="s1" style="width:auto"><option value="seq">เรียงตามลำดับที่</option><option value="name">เรียงตามชื่อ</option><option value="house">เรียงตามบ้านเลขที่</option></select></div>
+    <div class="wrap" style="margin-top:12px">
+      <table class="rt" style="min-width:940px">
+        <thead><tr><th>ลำดับที่</th><th>บ้านเลขที่</th><th>ชื่อ</th><th>นามสกุล</th><th>วันที่สมัคร</th><th>วันที่ลงใบเสร็จ</th><th>สถานะ</th><th class="n">ค่าสมาชิก/ปี</th><th></th></tr></thead>
+        <tbody id="tb1"></tbody>
+      </table>
+    </div>
+  </section>
+</div>
+
+<div id="pg-payments" class="pg" hidden>
+  <section class="card">
+    <div class="rhead" id="rhead"></div>
+    <div class="row noprint" style="margin-top:0"><label for="yr" style="margin:0">ปีสมาชิก (พ.ศ.)</label><select id="yr" style="width:auto"></select></div>
+    <div class="stats" style="margin-top:12px">
+      <div class="stat">ชำระแล้ว<b id="cnt">0</b>คน</div>
+      <div class="stat r">ยังไม่ชำระ<b id="cnt2">0</b>คน</div>
+      <div class="stat">ยอดที่ได้รับ<b id="sum">0</b>บาท</div>
+      <div class="stat r">ยอดค้างชำระ<b id="sumu">0</b>บาท</div>
+    </div>
+    <div class="row noprint">
+      <input id="q2" placeholder="🔍 ค้นหาชื่อ นามสกุล หรือบ้านเลขที่" style="flex:1;min-width:220px">
+      <select id="flt" style="width:auto"><option value="all">แสดงทั้งหมด</option><option value="paid">เฉพาะชำระแล้ว</option><option value="unpaid">เฉพาะยังไม่ชำระ</option></select>
+      <select id="s2" style="width:auto"><option value="seq">เรียงตามลำดับที่</option><option value="name">เรียงตามชื่อ</option><option value="house">เรียงตามบ้านเลขที่</option></select>
+      <button class="sec" id="print" type="button">🖨️ พิมพ์รายงาน</button>
+    </div>
+    <div class="row noprint" id="bulk" style="background:var(--hl);border-radius:12px;padding:10px 14px"><span id="bulkn" style="font-weight:600">เลือก 0 คน</span><label style="margin:0">วันที่ชำระ <input type="date" id="bdate" style="width:auto;display:inline-block"></label><button type="button" id="bgo" class="sm" disabled>✓ ติ๊กชำระที่เลือก</button><button type="button" class="sec sm" id="bclr">ล้างที่เลือก</button><span id="bconf" hidden style="flex-basis:100%"><b id="bconftx"></b> <button type="button" id="bconfyes" class="sm">ยืนยัน</button> <button type="button" id="bconfno" class="sec sm">ยกเลิก</button></span></div>
+    <p class="legend noprint">ติ๊กช่องเลือกหน้ารายชื่อ แล้วกด "ติ๊กชำระที่เลือก" เพื่อรับชำระหลายคนพร้อมกัน · กดที่กล่องเพื่อเปลี่ยนสถานะ: ✓ = ชำระแล้ว, ✗ = ยังไม่ชำระ · แสดงเฉพาะสมาชิกที่ยังเป็นสมาชิก (และคนที่ชำระในปีนั้นแล้ว)</p>
+    <div class="wrap" style="margin-top:8px">
+      <table class="rt" style="min-width:760px">
+        <thead><tr><th class="sc noprint"><input type="checkbox" class="sel" id="selall" aria-label="เลือกทั้งหมดที่ยังไม่ชำระ"></th><th>ลำดับที่</th><th>บ้านเลขที่</th><th>ชื่อ</th><th>นามสกุล</th><th class="n">จำนวนเงิน</th><th class="c">ชำระ</th><th>วันที่ชำระ</th><th>ใบเสร็จ</th></tr></thead>
+        <tbody id="tb2"></tbody>
+        <tfoot><tr><th colspan="5" class="n">รวมยอดที่ชำระแล้ว</th><th class="n" id="sum2">0</th><th></th><th></th><th></th></tr></tfoot>
+      </table>
+    </div>
+    <div class="sign"><div>ผู้รับเงิน</div><div>ผู้ตรวจสอบ</div><div>ประธานชมรม</div></div>
+  </section>
+</div>
+
+<div id="pg-settings" class="pg" hidden>
+  <section class="card">
+    <h2>ชื่อชมรม</h2>
+    <div class="row" style="margin-top:0"><input id="club" placeholder="เช่น ชมรมผู้สูงอายุ หมู่บ้าน..." style="flex:1;min-width:220px"><button type="button" id="clubsave">บันทึกชื่อ</button></div>
+    <div id="clubmsg" class="msg ok"></div>
+  </section>
+  <section class="card">
+    <h2>สำรองและกู้คืนข้อมูล</h2>
+    <p class="sub" id="lastbk"></p>
+    <div class="row" style="margin-top:0">
+      <button type="button" id="bkjson">⬇️ สำรองข้อมูลทั้งหมด (.json)</button>
+      <button type="button" class="sec" id="bkcsv">⬇️ ส่งออก Excel (.csv) ของปีที่เลือก</button>
+    </div>
+    <div id="bkmsg" class="msg ok"></div>
+    <div id="bkbox" hidden>
+      <p class="sub">ดาวน์โหลดไม่สำเร็จ — คัดลอกข้อความด้านล่างทั้งหมดไปวางในไฟล์ใหม่ แล้วบันทึกเป็น .json (หรือ .csv)</p>
+      <textarea id="bkta" rows="6" readonly></textarea>
+    </div>
+    <div style="margin-top:16px"><label for="rfile">นำเข้าข้อมูลจากไฟล์สำรอง (.json)</label><input type="file" id="rfile" accept=".json,application/json"></div>
+    <div id="rimp" class="confirm" hidden>
+      <p id="rimptx" style="margin:0 0 10px"></p>
+      <button type="button" id="rimpyes" class="del sm">ยืนยันนำเข้า (แทนที่ข้อมูลเดิม)</button> <button type="button" id="rimpno" class="sec sm">ยกเลิก</button>
+    </div>
+    <div id="rimpmsg" class="msg"></div>
+  </section>
+  <section class="card">
+    <h2>เปลี่ยนรหัสผ่าน</h2>
+    <div class="grid">
+      <div><label for="pw0">รหัสผ่านเดิม</label><input id="pw0" type="password" autocomplete="current-password"></div>
+      <div><label for="pw1">รหัสผ่านใหม่</label><input id="pw1" type="password" autocomplete="new-password"></div>
+      <div><label for="pw2">ยืนยันรหัสผ่านใหม่</label><input id="pw2" type="password" autocomplete="new-password"></div>
+    </div>
+    <div class="row"><button type="button" id="pwgo">เปลี่ยนรหัสผ่าน</button></div>
+    <div id="pwmsg" class="msg"></div>
+  </section>
+  <section class="card">
+    <h2>ประวัติการใช้งาน (50 รายการล่าสุด)</h2>
+    <div class="wrap"><table style="min-width:520px"><thead><tr><th>เวลา</th><th>ผู้ใช้</th><th>รายการ</th></tr></thead><tbody id="tblog"></tbody></table></div>
+  </section>
+</div>
+
+<div id="pg-summary" class="pg" hidden>
+  <section class="card">
+    <div class="rhead" id="rhead2"></div>
+    <div class="row noprint" style="margin-top:0;justify-content:space-between"><h2 style="margin:0">สรุปยอดเก็บรายเดือน</h2><label style="margin:0">ปี (พ.ศ.) <select id="yr2" style="width:auto;display:inline-block"></select></label><button class="sec" id="print2" type="button">🖨️ พิมพ์สรุป</button></div>
+    <h2 class="rtitle">สรุปยอดเก็บรายเดือน</h2>
+    <div class="wrap" style="margin-top:8px"><table class="rt" style="min-width:520px"><thead><tr><th>เดือน</th><th class="n">ชำระแล้ว (คน)</th><th class="n">ยอดที่ได้รับ (บาท)</th><th class="n">เทียบเดือนก่อน (บาท)</th><th>กราฟ</th></tr></thead><tbody id="tbs1"></tbody><tfoot id="tfs1"></tfoot></table></div>
+  </section>
+  <section class="card">
+    <h2>สถานะสมาชิก</h2>
+    <div class="stats" id="mstats"></div>
+  </section>
+</div>
+
+<section id="receipt" class="card" hidden style="max-width:560px;margin:0 auto">
+  <div class="row noprint" style="margin-top:0"><button type="button" id="rcprint">🖨️ พิมพ์ใบเสร็จ</button><button type="button" class="sec" id="rcback">← กลับ</button></div>
+  <div id="rcbody" style="margin-top:16px"></div>
+</section>
+</main>
+
+<script>
+(()=>{
+const $=i=>document.getElementById(i);
+const K2='elderlyClubV2',K1='elderlyClubFees',AK='elderlyClubAuth',SK='elderlyClubSession',OWNER='ppinn474@gmail.com';
+let S={members:[],meta:{club:'',years:[],counter:{},log:[],lastBackup:''}},editId=null,pendingDel=null,who=OWNER,curY=0,dupSig='',mode='login',pendingImport=null;
+const PS=25;let pg1=1,pg2=1,printing=false;const sel=new Set();
+const noPage=()=>printing||document.body.classList.contains('rpt');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n).toLocaleString('th-TH',{maximumFractionDigits:2});
+const TM=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+const thDate=s=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(s||'');return m?(+m[3])+' '+TM[+m[2]-1]+' '+(+m[1]+543):''};
+const today=()=>{const d=new Date();return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0')};
+const thisY=()=>new Date().getFullYear()+543;
+const ageOf=b=>{const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(b||'');if(!m)return'';const t=new Date();let a=t.getFullYear()-(+m[1]);if(t.getMonth()+1<+m[2]||(t.getMonth()+1===+m[2]&&t.getDate()<+m[3]))a--;return a>=0&&a<130?a:''};
+const MS={active:['ยังเป็นสมาชิก','p'],left:['ลาออก','g'],deceased:['เสียชีวิต','u']};
+const find=id=>S.members.find(m=>String(m.id)===String(id));
+const pe=m=>m.pay[curY];
+const isPaid=m=>!!(pe(m)&&pe(m).paid);
+const rdateFor=m=>(m.rdate&&(+m.rdate.slice(0,4)+543)===curY)?m.rdate:today();
+const sumOf=a=>a.reduce((s,m)=>s+Number(isPaid(m)?pe(m).amt:m.amt)||0,0);
+
+/* ---------- storage ---------- */
+const rcpNo=y=>{S.meta.counter[y]=(S.meta.counter[y]||0)+1;return y+'-'+String(S.meta.counter[y]).padStart(4,'0')};
+const persist=()=>{try{localStorage.setItem(K2,JSON.stringify(S))}catch(e){$('msg').textContent='ไม่สามารถบันทึกลงเครื่องได้'}};
+const logA=t=>{S.meta.log.unshift({t:new Date().toISOString(),who,msg:t});if(S.meta.log.length>500)S.meta.log.length=500};
+function normalize(){
+  S.members=Array.isArray(S.members)?S.members:[];
+  S.meta=Object.assign({club:'',years:[],counter:{},log:[],lastBackup:''},S.meta||{});
+  S.members.forEach(m=>{m.pay=m.pay||{};m.ms=m.ms||'active';m.rdate=m.rdate||'';m.jdate=m.jdate||'';m.amt=Number(m.amt)||0});
+}
+function load(){
+  try{
+    const s=localStorage.getItem(K2);
+    if(s)S=JSON.parse(s);
+    else{
+      const o=JSON.parse(localStorage.getItem(K1)||'[]');
+      if(Array.isArray(o)&&o.length){
+        const y=thisY();
+        o.forEach(r=>{const m={id:r.id,seq:r.seq,house:r.house,fn:r.fn,ln:r.ln,rdate:'',jdate:'',ms:'active',amt:Number(r.amt)||0,pay:{}};
+          S.members.push(m);if(r.status==='paid')m.pay[y]={paid:true,date:r.paidDate||'',receipt:rcpNo(y),amt:m.amt}});
+        persist();
+      }
+    }
+  }catch(e){}
+  normalize();curY=thisY();
+}
+const years=()=>[...new Set([thisY()+1,thisY(),...S.meta.years,...S.members.flatMap(m=>Object.keys(m.pay).map(Number))])].sort((a,b)=>b-a);
+
+/* ---------- pages ---------- */
+function show(p){
+  p=['payments','summary','settings'].includes(p)?p:'members';
+  ['members','payments','summary','settings'].forEach(n=>{$('pg-'+n).hidden=n!==p;$('tab-'+n).className=n===p?'on':''});
+  if(p==='payments')renderPay();if(p==='summary')renderSummary();if(p==='settings')renderSettings();
+}
+function go(p){try{location.hash=p}catch(e){}show(p)}
+['members','payments','summary','settings'].forEach(n=>$('tab-'+n).onclick=()=>go(n));
+window.addEventListener('hashchange',()=>show((location.hash||'').replace('#','')));
+
+/* ---------- entry form ---------- */
+const formRows=()=>[...$('rows').children];
+const pairs=d=>[...d.querySelectorAll('.np')];
+function nextSeq(){
+  let m=S.members.reduce((a,r)=>Math.max(a,Number(r.seq)||0),0);
+  formRows().forEach(d=>{m=Math.max(m,(parseInt(d.querySelector('.r-seq').value,10)||0)+pairs(d).length-1)});
+  return m+1;
+}
+const lastHouse=()=>{const r=formRows();return r.length?r[r.length-1].querySelector('.r-house').value:''};
+function renumber(){
+  const rs=formRows();let c=0;
+  rs.forEach(d=>{const n=pairs(d).length;
+    d.querySelector('.t').textContent=n>1?'สมาชิกคนที่ '+(c+1)+'–'+(c+n):'สมาชิกคนที่ '+(c+1);c+=n;
+    d.querySelector('.rm').style.display=(rs.length>1&&!editId)?'':'none';
+    d.querySelector('.addn').style.display=editId?'none':'';});
+}
+function addPair(d,v){
+  v=v||{};const first=pairs(d).length===0;
+  const p=document.createElement('div');p.className='np';
+  p.innerHTML='<div class="grid" style="margin-top:'+(first?0:12)+'px"><div><label>ชื่อ</label><input class="r-fn"></div><div><label>นามสกุล</label><input class="r-ln"></div><div><label>วันที่สมัคร</label><input class="r-jd" type="date"></div><div><label>วันที่ลงใบเสร็จ</label><input class="r-rd" type="date"></div>'+(first?'':'<div class="full"><button type="button" class="del sm rn">ลบชื่อนี้</button></div>')+'</div>';
+  p.querySelector('.r-fn').value=v.fn||'';p.querySelector('.r-ln').value=v.ln||'';
+  p.querySelector('.r-jd').value=v.jdate||(v.id?'':today());p.querySelector('.r-rd').value=v.rdate||(v.id?'':today());
+  d.querySelector('.names').appendChild(p);renumber();return p;
+}
+function addRow(v){
+  v=v||{};
+  const d=document.createElement('div');d.className='mrow';
+  d.innerHTML='<div class="mh"><span class="t"></span><button type="button" class="del sm rm">ลบแถวนี้</button></div><div class="grid">'+
+  '<div><label>ลำดับที่</label><input class="r-seq" type="number" min="1" inputmode="numeric"></div>'+
+  '<div><label>บ้านเลขที่</label><input class="r-house" placeholder="เช่น 12/3"></div>'+
+  '<div class="full names"></div>'+
+  '<div><label>ค่าสมาชิกต่อคน/ปี (บาท)</label><input class="r-amt" type="number" min="0" step="any" inputmode="decimal"></div>'+
+  '<div><label>สถานะสมาชิก</label><select class="r-ms"><option value="active">ยังเป็นสมาชิก</option><option value="left">ลาออก</option><option value="deceased">เสียชีวิต</option></select></div>'+
+  '<div class="full addn"><button type="button" class="sec sm an">➕ เพิ่มชื่อ-นามสกุล</button></div></div>';
+  d.querySelector('.r-seq').value=v.seq!=null?v.seq:nextSeq();
+  d.querySelector('.r-house').value=v.house||lastHouse();
+  d.querySelector('.r-amt').value=v.amt!=null?v.amt:(S.members.length?S.members[S.members.length-1].amt:'');
+  d.querySelector('.r-ms').value=v.ms||'active';
+  $('rows').appendChild(d);addPair(d,v);return d;
+}
+function clearForm(){editId=null;dupSig='';$('rows').innerHTML='';addRow();$('save').textContent='บันทึกทั้งหมด';$('cancel').hidden=true;$('add').hidden=false}
+$('add').onclick=()=>{const d=addRow();d.querySelector('.r-fn').focus()};
+$('rows').onclick=e=>{
+  const t=e.target,d=t.closest('.mrow');if(!d)return;
+  if(t.classList.contains('an')){addPair(d).querySelector('.r-fn').focus();return}
+  if(t.classList.contains('rn')){t.closest('.np').remove();renumber();return}
+  if(t.classList.contains('rm')&&formRows().length>1){d.remove();renumber()}
+};
+$('save').onclick=()=>{
+  const msg=$('msg'),recs=[],used={},rs=formRows(),old=editId?find(editId):null;
+  for(let i=0;i<rs.length;i++){
+    const d=rs[i],pre='สมาชิกคนที่ '+(i+1)+': ';
+    const house=d.querySelector('.r-house').value.trim(),seq=parseInt(d.querySelector('.r-seq').value,10),
+      raw=d.querySelector('.r-amt').value,amt=parseFloat(raw),ms=d.querySelector('.r-ms').value;
+    const filled=pairs(d).map(p=>({fn:p.querySelector('.r-fn').value.trim(),ln:p.querySelector('.r-ln').value.trim(),rdate:p.querySelector('.r-rd').value,jdate:p.querySelector('.r-jd').value}))
+      .filter(p=>p.fn||p.ln);
+    if(!filled.length&&raw===''&&rs.length>1)continue;
+    if(!filled.length||filled.some(p=>!p.fn||!p.ln)){msg.textContent=pre+'กรุณากรอกชื่อและนามสกุลให้ครบ';return}
+    if(isNaN(seq)){msg.textContent=pre+'กรุณากรอกลำดับที่';return}
+    if(!house){msg.textContent=pre+'กรุณากรอกบ้านเลขที่';return}
+    if(isNaN(amt)||amt<0){msg.textContent=pre+'กรุณากรอกค่าสมาชิก';return}
+    filled.forEach((p,k)=>{recs.push(Object.assign({id:editId||Date.now()+Math.random(),house,seq:seq+k,ms,amt,pay:old?old.pay:{}},p))});
+  }
+  if(!recs.length){msg.textContent='กรุณากรอกข้อมูลสมาชิกอย่างน้อย 1 คน';return}
+  for(const r of recs){
+    if(recs.filter(x=>x.seq===r.seq).length>1||S.members.some(m=>m.seq===r.seq&&m.id!==editId)){msg.textContent='ลำดับที่ '+r.seq+' มีอยู่แล้ว';return}
+  }
+  const key=r=>(r.fn+' '+r.ln).toLowerCase();
+  const others=S.members.filter(m=>m.id!==editId).map(key);
+  const dups=recs.filter(r=>others.includes(key(r))||recs.filter(x=>key(x)===key(r)).length>1).map(r=>r.fn+' '+r.ln);
+  const sig=dups.join('|');
+  if(sig&&sig!==dupSig){dupSig=sig;msg.textContent='⚠️ พบชื่อซ้ำกับที่มีอยู่แล้ว: '+dups.join(', ')+' — ถ้าเป็นคนละคนให้กดบันทึกอีกครั้งเพื่อยืนยัน';return}
+  msg.textContent='';
+  if(editId){S.members=S.members.map(m=>m.id===editId?recs[0]:m);logA('แก้ไขสมาชิก ลำดับที่ '+recs[0].seq+' '+recs[0].fn+' '+recs[0].ln)}
+  else{S.members=S.members.concat(recs);recs.forEach(r=>logA('เพิ่มสมาชิก ลำดับที่ '+r.seq+' '+r.fn+' '+r.ln))}
+  persist();clearForm();renderMembers();
+};
+$('cancel').onclick=()=>{clearForm();$('msg').textContent=''};
+
+/* ---------- sort, paging, baht text ---------- */
+const collate=new Intl.Collator('th',{numeric:true});
+function sortRows(rows,k){
+  const f=k==='name'?(a,b)=>collate.compare(a.fn+' '+a.ln,b.fn+' '+b.ln):k==='house'?(a,b)=>collate.compare(String(a.house),String(b.house))||a.seq-b.seq:(a,b)=>a.seq-b.seq;
+  return rows.slice().sort(f);
+}
+function pager(el,total,page,setPage){
+  const n=Math.max(1,Math.ceil(total/PS));
+  if(total<=PS){el.innerHTML='';return}
+  el.innerHTML='<button type="button" class="sec sm" data-pg="-1"'+(page<=1?' disabled':'')+'>← ก่อนหน้า</button><span>หน้า '+page+' / '+n+' ('+total+' รายการ)</span><button type="button" class="sec sm" data-pg="1"'+(page>=n?' disabled':'')+'>ถัดไป →</button>';
+  el.onclick=e=>{const b=e.target.closest('[data-pg]');if(b&&!b.disabled)setPage(page+(+b.dataset.pg))};
+}
+function bahtText(n){
+  n=Math.round(Number(n)*100)/100;if(!(n>=0))return'';
+  const D=['ศูนย์','หนึ่ง','สอง','สาม','สี่','ห้า','หก','เจ็ด','แปด','เก้า'],U=['','สิบ','ร้อย','พัน','หมื่น','แสน'];
+  const six=s=>{let r='';const L=s.length;for(let i=0;i<L;i++){const d=+s[i],p=L-i-1;if(!d)continue;
+    if(p===1)r+=(d===1?'':d===2?'ยี่':D[d])+'สิบ';
+    else if(p===0)r+=(d===1&&L>1?'เอ็ด':D[d]);
+    else r+=D[d]+U[p]}return r};
+  const int=Math.floor(n),sat=Math.round((n-int)*100);
+  let s=String(int),g=[];while(s.length){g.unshift(s.slice(-6));s=s.slice(0,-6)}
+  const it=int===0?'':g.map((x,k)=>k?six(x.padStart(6,'0')):six(x)).join('ล้าน');
+  if(int===0&&!sat)return'ศูนย์บาทถ้วน';
+  return (int?it+'บาท':'')+(sat?six(String(sat))+'สตางค์':'ถ้วน');
+}
+
+/* ---------- members table ---------- */
+function renderMembers(){
+  const q=$('q1').value.trim().toLowerCase();
+  const all=sortRows(S.members.filter(m=>!q||(m.fn+' '+m.ln+' '+m.house).toLowerCase().includes(q)),$('s1').value);
+  const np=noPage();pg1=Math.min(pg1,Math.max(1,Math.ceil(all.length/PS)));
+  const rows=np?all:all.slice((pg1-1)*PS,pg1*PS);
+  if(np)$('pgr1').innerHTML='';else pager($('pgr1'),all.length,pg1,p=>{pg1=p;renderMembers()});
+  $('tb1').innerHTML=rows.length?rows.map(m=>{
+    const s=MS[m.ms]||MS.active;
+    return '<tr><td data-l="ลำดับที่">'+esc(m.seq)+'</td><td data-l="บ้านเลขที่">'+esc(m.house)+'</td><td data-l="ชื่อ">'+esc(m.fn)+'</td><td data-l="นามสกุล">'+esc(m.ln)+'</td><td data-l="วันที่สมัคร">'+(thDate(m.jdate)||'-')+'</td><td data-l="วันที่ลงใบเสร็จ">'+(thDate(m.rdate)||'-')+'</td>'+
+    '<td data-l="สถานะ"><span class="b '+s[1]+'">'+s[0]+'</span></td><td class="n" data-l="ค่าสมาชิก/ปี">'+(m.amt?fmt(m.amt):'-')+'</td>'+
+    '<td data-l="จัดการ" style="white-space:nowrap">'+(pendingDel===String(m.id)?'<b style="color:var(--dan)">ลบรายการนี้?</b> <button class="del sm" data-y="'+m.id+'">ยืนยันลบ</button> <button class="sec sm" data-n="1">ยกเลิก</button>':'<button class="sec sm" data-e="'+m.id+'">แก้ไข</button> <button class="del sm" data-d="'+m.id+'">ลบ</button>')+'</td></tr>';
+  }).join(''):'<tr><td colspan="9" class="empty">ยังไม่มีข้อมูล</td></tr>';
+}
+$('q1').oninput=()=>{pg1=1;renderMembers()};$('s1').onchange=()=>{pg1=1;renderMembers()};
+$('tb1').onclick=e=>{
+  const t=e.target,d=t.dataset;
+  if(d.d){pendingDel=d.d;renderMembers()}
+  else if(d.y){const m=find(d.y);if(m)logA('ลบสมาชิก ลำดับที่ '+m.seq+' '+m.fn+' '+m.ln);S.members=S.members.filter(x=>String(x.id)!==d.y);pendingDel=null;persist();renderMembers()}
+  else if(d.n){pendingDel=null;renderMembers()}
+  else if(d.e){const m=find(d.e);if(m){clearForm();editId=m.id;$('rows').innerHTML='';addRow(m);$('save').textContent='บันทึกการแก้ไข';$('cancel').hidden=false;$('add').hidden=true;window.scrollTo({top:0,behavior:'smooth'})}}
+};
+
+/* ---------- payments ---------- */
+function renderPay(){
+  const ys=years();if(!ys.includes(curY))curY=thisY();
+  $('yr').innerHTML=ys.map(y=>'<option value="'+y+'"'+(y===curY?' selected':'')+'>'+y+'</option>').join('');
+  const base=S.members.filter(m=>m.ms==='active'||isPaid(m));
+  const paid=base.filter(isPaid),unp=base.filter(m=>!isPaid(m));
+  $('cnt').textContent=paid.length;$('cnt2').textContent=unp.length;
+  $('sum').textContent=fmt(sumOf(paid));$('sumu').textContent=fmt(sumOf(unp));
+  pruneSel();updBulk();
+  const q=$('q2').value.trim().toLowerCase(),f=$('flt').value;
+  const all=sortRows(base.filter(m=>(f==='all'||(f==='paid')===isPaid(m))&&(!q||(m.fn+' '+m.ln+' '+m.house).toLowerCase().includes(q))),$('s2').value);
+  const np=noPage();pg2=Math.min(pg2,Math.max(1,Math.ceil(all.length/PS)));
+  const rows=np?all:all.slice((pg2-1)*PS,pg2*PS);
+  if(np)$('pgr2').innerHTML='';else pager($('pgr2'),all.length,pg2,p=>{pg2=p;renderPay()});
+  $('sum2').textContent=fmt(sumOf(all.filter(isPaid)));
+  $('rhead').innerHTML='<h2 style="margin:0">'+esc(S.meta.club||'ชมรมผู้สูงอายุ')+'</h2><div>รายงานการชำระค่าสมาชิก ประจำปี '+curY+(f!=='all'?' ('+(f==='paid'?'เฉพาะชำระแล้ว':'เฉพาะยังไม่ชำระ')+')':'')+'</div><div style="color:var(--mut)">ข้อมูล ณ วันที่ '+thDate(today())+'</div>';
+  $('tb2').innerHTML=rows.length?rows.map(m=>{
+    const p=isPaid(m),x=pe(m);
+    return '<tr>'+(p?'<td class="sc noprint"></td>':'<td class="sc noprint" data-l="เลือก"><input type="checkbox" class="sel" data-s="'+m.id+'"'+(sel.has(String(m.id))?' checked':'')+' aria-label="เลือก"></td>')+'<td data-l="ลำดับที่">'+esc(m.seq)+'</td><td data-l="บ้านเลขที่">'+esc(m.house)+'</td><td data-l="ชื่อ">'+esc(m.fn)+'</td><td data-l="นามสกุล">'+esc(m.ln)+'</td>'+
+    '<td class="n" data-l="จำนวนเงิน">'+(Number(p?x.amt:m.amt)?fmt(p?x.amt:m.amt):'-')+'</td>'+
+    '<td class="c" data-l="ชำระ"><button type="button" class="chk'+(p?' on':'')+'" data-t="'+m.id+'" aria-pressed="'+p+'" aria-label="'+(p?'ชำระแล้ว':'ยังไม่ชำระ')+'">'+(p?'✓':'✗')+'</button></td>'+
+    '<td data-l="วันที่ชำระ">'+(p?'<input type="date" class="pd" data-p="'+m.id+'" value="'+esc(x.date||'')+'"><span class="pdt">'+(thDate(x.date)||'-')+'</span>':'-')+'</td>'+
+    '<td data-l="ใบเสร็จ">'+(p?'<button type="button" class="sec sm rc" data-r="'+m.id+'">🧾 '+esc(x.receipt)+'</button>':'-')+'</td></tr>';
+  }).join(''):'<tr><td colspan="9" class="empty">ไม่มีรายการ</td></tr>';
+}
+$('yr').onchange=()=>{curY=+$('yr').value;renderPay()};
+$('q2').oninput=()=>{pg2=1;renderPay()};$('flt').onchange=()=>{pg2=1;renderPay()};$('s2').onchange=()=>{pg2=1;renderPay()};
+function pruneSel(){[...sel].forEach(id=>{const m=find(id);if(!m||isPaid(m))sel.delete(id)})}
+function updBulk(){$('bulkn').textContent='เลือก '+sel.size+' คน';$('bgo').disabled=!sel.size;$('selall').checked=false;$('bconf').hidden=true}
+$('selall').onchange=e=>{const ck=e.target.checked;document.querySelectorAll('#tb2 .sel[data-s]').forEach(c=>{c.checked=ck;if(ck)sel.add(c.dataset.s);else sel.delete(c.dataset.s)});$('bulkn').textContent='เลือก '+sel.size+' คน';$('bgo').disabled=!sel.size;$('bconf').hidden=true};
+$('bclr').onclick=()=>{sel.clear();renderPay()};
+$('bgo').onclick=()=>{if(!sel.size)return;$('bconftx').textContent='ติ๊กชำระ '+sel.size+' คน วันที่ '+(thDate($('bdate').value)||thDate(today()))+' ?';$('bconf').hidden=false};
+$('bconfno').onclick=()=>{$('bconf').hidden=true};
+$('bconfyes').onclick=()=>{
+  const d=$('bdate').value||today();let n=0;
+  [...sel].forEach(id=>{const m=find(id);if(!m||isPaid(m))return;const x=m.pay[curY];
+    if(x){x.paid=true;x.date=d;x.amt=x.amt||m.amt}else m.pay[curY]={paid:true,date:d,receipt:rcpNo(curY),amt:m.amt};n++});
+  if(n)logA('รับชำระหลายคน ปี '+curY+' จำนวน '+n+' คน วันที่ '+thDate(d));
+  sel.clear();persist();renderPay();
+};
+$('tb2').onclick=e=>{
+  const b=e.target.closest('.chk');
+  if(b){const m=find(b.dataset.t);if(!m)return;const x=m.pay[curY],nm=m.fn+' '+m.ln;
+    if(x&&x.paid){x.paid=false;logA('ยกเลิกการชำระ ปี '+curY+': '+nm+' (ใบเสร็จ '+x.receipt+')')}
+    else if(x){x.paid=true;x.amt=x.amt||m.amt;x.date=x.date||today();logA('บันทึกการชำระอีกครั้ง ปี '+curY+': '+nm+' (ใบเสร็จ '+x.receipt+')')}
+    else{m.pay[curY]={paid:true,date:rdateFor(m),receipt:rcpNo(curY),amt:m.amt};logA('รับชำระ ปี '+curY+': '+nm+' '+fmt(m.amt)+' บาท (ใบเสร็จ '+m.pay[curY].receipt+')')}
+    persist();renderPay();return}
+  const r=e.target.closest('.rc');if(r)showReceipt(r.dataset.r);
+};
+$('tb2').onchange=e=>{const i=e.target;if(i.classList.contains('sel')){const id=i.dataset.s;if(i.checked)sel.add(id);else sel.delete(id);$('bulkn').textContent='เลือก '+sel.size+' คน';$('bgo').disabled=!sel.size;$('bconf').hidden=true;return}if(i.classList.contains('pd')){const m=find(i.dataset.p);if(m&&m.pay[curY]){m.pay[curY].date=i.value;persist();renderPay()}}};
+
+/* ---------- print / receipt ---------- */
+const doPrint=()=>{try{window.print()}catch(e){}};
+const startReport=()=>{document.body.classList.add('rpt');$('rbar').hidden=false;window.scrollTo(0,0);renderPay();renderMembers();doPrint()};
+$('print').onclick=startReport;$('print2').onclick=startReport;
+window.addEventListener('beforeprint',()=>{printing=true;renderPay();renderMembers()});
+window.addEventListener('afterprint',()=>{printing=false;renderPay();renderMembers()});
+$('rprint').onclick=doPrint;
+$('rback').onclick=()=>{document.body.classList.remove('rpt');$('rbar').hidden=true;renderPay();renderMembers()};
+
+/* ---------- yearly summary ---------- */
+const MN=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+function renderSummary(){
+  const ys=years();if(!ys.includes(curY))curY=thisY();
+  $('yr2').innerHTML=ys.map(y=>'<option value="'+y+'"'+(y===curY?' selected':'')+'>'+y+'</option>').join('');
+  const mon=Array.from({length:12},()=>({c:0,s:0})),und={c:0,s:0};
+  S.members.forEach(m=>Object.keys(m.pay).forEach(k=>{
+    const x=m.pay[k];if(!x||!x.paid)return;const a=Number(x.amt)||0,mt=/^(\d{4})-(\d{2})-/.exec(x.date||'');
+    if(mt){if(+mt[1]+543===curY){const o=mon[+mt[2]-1];o.c++;o.s+=a}}
+    else if(+k===curY){und.c++;und.s+=a}
+  }));
+  const mx=Math.max(1,...mon.map(o=>o.s)),tc=mon.reduce((a,o)=>a+o.c,0)+und.c,ts=mon.reduce((a,o)=>a+o.s,0)+und.s;
+  $('rhead2').innerHTML='<h2 style="margin:0">'+esc(S.meta.club||'ชมรมผู้สูงอายุ')+'</h2><div>สรุปยอดเก็บค่าสมาชิกรายเดือน ประจำปี '+curY+'</div><div style="color:var(--mut)">ข้อมูล ณ วันที่ '+thDate(today())+'</div>';
+  let h=mon.map((o,i)=>{const d=i?o.s-mon[i-1].s:null;
+    return '<tr><td data-l="เดือน">'+MN[i]+'</td><td class="n" data-l="ชำระแล้ว (คน)">'+o.c+'</td><td class="n" data-l="ยอดที่ได้รับ (บาท)">'+fmt(o.s)+'</td><td class="n" data-l="เทียบเดือนก่อน (บาท)" style="color:'+(d!==null&&d<0?'var(--dan)':'inherit')+'">'+(d===null?'-':(d>0?'+':'')+fmt(d))+'</td><td data-l="กราฟ"><div class="bar" style="width:'+Math.round(o.s/mx*100)+'%"></div></td></tr>'}).join('');
+  if(und.c)h+='<tr><td data-l="เดือน">ไม่ระบุวันที่ชำระ</td><td class="n" data-l="ชำระแล้ว (คน)">'+und.c+'</td><td class="n" data-l="ยอดที่ได้รับ (บาท)">'+fmt(und.s)+'</td><td></td><td></td></tr>';
+  $('tbs1').innerHTML=h;
+  $('tfs1').innerHTML='<tr><th>รวมทั้งปี</th><th class="n">'+tc+'</th><th class="n">'+fmt(ts)+'</th><th></th><th></th></tr>';
+  const n=k=>S.members.filter(m=>m.ms===k).length;
+  $('mstats').innerHTML='<div class="stat">ยังเป็นสมาชิก<b>'+n('active')+'</b>คน</div><div class="stat">ลาออก<b>'+n('left')+'</b>คน</div><div class="stat">เสียชีวิต<b>'+n('deceased')+'</b>คน</div><div class="stat">ทั้งหมดในระบบ<b>'+S.members.length+'</b>คน</div>';
+}
+$('yr2').onchange=()=>{curY=+$('yr2').value;renderSummary()};
+function showReceipt(id){
+  const m=find(id),x=m&&m.pay[curY];if(!x)return;
+  $('rcbody').innerHTML='<h2 style="text-align:center;margin:0;color:inherit">'+esc(S.meta.club||'ชมรมผู้สูงอายุ')+'</h2><h3 style="text-align:center;margin:4px 0 20px">ใบเสร็จรับเงิน</h3>'+
+  '<div class="rl"><span>เลขที่ <b>'+esc(x.receipt)+'</b></span><span>วันที่ '+esc(thDate(x.date)||'-')+'</span></div>'+
+  '<p>ได้รับเงินจาก <b>'+esc(m.fn+' '+m.ln)+'</b> บ้านเลขที่ '+esc(m.house)+'</p><p>เป็นค่าสมาชิกประจำปี '+curY+'</p>'+
+  '<p style="font-size:1.4rem;margin-bottom:4px">จำนวนเงิน <b>'+fmt(x.amt)+'</b> บาท</p><p style="margin-top:0">( '+esc(bahtText(x.amt))+' )</p>'+
+  '<div style="margin-top:56px;text-align:right"><div style="display:inline-block;min-width:220px;text-align:center;border-top:1px solid currentColor;padding-top:6px">ผู้รับเงิน</div></div>';
+  document.body.classList.add('rcp');$('receipt').hidden=false;window.scrollTo(0,0);
+}
+$('rcprint').onclick=doPrint;
+$('rcback').onclick=()=>{document.body.classList.remove('rcp');$('receipt').hidden=true};
+
+/* ---------- settings: club, backup, password, log ---------- */
+function updBanner(){
+  let tx='';
+  if(S.members.length){
+    const lb=S.meta.lastBackup;
+    if(!lb)tx='⚠️ ยังไม่เคยสำรองข้อมูล — ข้อมูลอยู่ในเบราว์เซอร์นี้เท่านั้น ควรสำรองเก็บไว้';
+    else if((Date.now()-new Date(lb).getTime())/864e5>30)tx='⚠️ สำรองข้อมูลล่าสุดเมื่อ '+thDate(lb)+' (เกิน 30 วันแล้ว) ควรสำรองใหม่';
+  }
+  $('bkwarn').hidden=!tx;$('bkwarntx').textContent=tx;
+}
+function renderSettings(){
+  $('club').value=S.meta.club||'';
+  $('lastbk').textContent=S.meta.lastBackup?'สำรองข้อมูลล่าสุด: '+thDate(S.meta.lastBackup):'ยังไม่เคยสำรองข้อมูล';
+  $('tblog').innerHTML=S.meta.log.length?S.meta.log.slice(0,50).map(l=>'<tr><td style="white-space:nowrap">'+esc(new Date(l.t).toLocaleString('th-TH'))+'</td><td>'+esc(l.who)+'</td><td>'+esc(l.msg)+'</td></tr>').join(''):'<tr><td colspan="3" class="empty">ยังไม่มีประวัติ</td></tr>';
+}
+$('clubsave').onclick=()=>{S.meta.club=$('club').value.trim();logA('ตั้งชื่อชมรม: '+S.meta.club);persist();$('clubmsg').textContent='บันทึกชื่อชมรมแล้ว'};
+function boxFallback(text){$('bkbox').hidden=false;$('bkta').value=text;$('bkmsg').textContent=''}
+function saveFile(name,text,mime,done){
+  const fin=()=>{$('bkbox').hidden=true;done&&done()};
+  if(window.claude&&window.claude.use){
+    window.claude.use('downloads').then(d=>{
+      if(!d)return boxFallback(text);
+      d.save({filename:name,data:text}).then(fin).catch(err=>{if(!(err&&err.code==='declined'))boxFallback(text)});
+    }).catch(()=>boxFallback(text));
+  }else{
+    try{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type:mime}));a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),2000);fin()}catch(e){boxFallback(text)}
+  }
+}
+function markBackup(){S.meta.lastBackup=today();logA('สำรองข้อมูล');persist();$('bkmsg').textContent='สำรองข้อมูลแล้ว';renderSettings();updBanner()}
+const doBackup=()=>saveFile('club-backup-'+today()+'.json',JSON.stringify({app:'elderly-club',version:2,exported:new Date().toISOString(),data:S},null,1),'application/json',markBackup);
+$('bkjson').onclick=doBackup;$('bkgo').onclick=()=>{go('settings');doBackup()};
+$('bkcsv').onclick=()=>{
+  const cell=v=>'"'+String(v==null?'':v).replace(/"/g,'""')+'"';
+  const head=['ลำดับที่','บ้านเลขที่','ชื่อ','นามสกุล','วันที่สมัคร','วันที่ลงใบเสร็จ','สถานะสมาชิก','ค่าสมาชิก','ปี','ชำระแล้ว','วันที่ชำระ','เลขที่ใบเสร็จ'];
+  const rows=S.members.slice().sort((a,b)=>a.seq-b.seq).map(m=>{const x=m.pay[curY]||{};return [m.seq,m.house,m.fn,m.ln,thDate(m.jdate),thDate(m.rdate),(MS[m.ms]||MS.active)[0],m.amt,curY,x.paid?'ชำระแล้ว':'ยังไม่ชำระ',x.paid?thDate(x.date):'',x.paid?x.receipt:'']});
+  saveFile('club-members-'+curY+'.csv','\ufeff'+[head].concat(rows).map(r=>r.map(cell).join(',')).join('\r\n'),'text/csv',()=>{$('bkmsg').textContent='ส่งออกไฟล์ปี '+curY+' แล้ว'});
+};
+$('rfile').onchange=e=>{
+  const f=e.target.files&&e.target.files[0];if(!f)return;
+  const rd=new FileReader();
+  rd.onload=()=>{
+    try{const j=JSON.parse(rd.result);const d=j&&j.data;if(!d||!Array.isArray(d.members))throw 0;
+      pendingImport=d;$('rimptx').textContent='พบข้อมูล '+d.members.length+' คน ในไฟล์สำรอง การนำเข้าจะแทนที่ข้อมูลสมาชิกปัจจุบันทั้งหมด ('+S.members.length+' คน)';
+      $('rimp').hidden=false;$('rimpmsg').textContent=''}
+    catch(err){pendingImport=null;$('rimp').hidden=true;$('rimpmsg').textContent='ไฟล์ไม่ถูกต้อง — ใช้ได้เฉพาะไฟล์ .json ที่สำรองจากระบบนี้'}
+  };
+  rd.readAsText(f);e.target.value='';
+};
+$('rimpno').onclick=()=>{pendingImport=null;$('rimp').hidden=true};
+$('rimpyes').onclick=()=>{
+  if(!pendingImport)return;
+  const lg=S.meta.log;S=pendingImport;normalize();S.meta.log=(S.meta.log||[]).concat([]);
+  logA('นำเข้าข้อมูลจากไฟล์สำรอง ('+S.members.length+' คน)');persist();pendingImport=null;$('rimp').hidden=true;
+  $('rimpmsg').className='msg ok';$('rimpmsg').textContent='นำเข้าข้อมูลเรียบร้อยแล้ว';clearForm();renderMembers();renderSettings();updBanner();
+};
+$('pwgo').onclick=()=>{
+  const a=getAuth(),m=$('pwmsg');m.className='msg';if(!a)return;
+  const o=$('pw0').value,n=$('pw1').value;
+  if(n.length<6){m.textContent='รหัสผ่านใหม่ต้องมีอย่างน้อย 6 ตัวอักษร';return}
+  if(n!==$('pw2').value){m.textContent='รหัสผ่านใหม่ทั้งสองช่องไม่ตรงกัน';return}
+  hashPw(o,a.salt).then(h=>{
+    if(h!==a.hash){m.textContent='รหัสผ่านเดิมไม่ถูกต้อง';return}
+    const salt=String(Math.random()).slice(2)+Date.now();
+    hashPw(n,salt).then(h2=>{try{localStorage.setItem(AK,JSON.stringify({email:a.email,salt,hash:h2}))}catch(e){m.textContent='บันทึกไม่สำเร็จ';return}
+      logA('เปลี่ยนรหัสผ่าน');persist();['pw0','pw1','pw2'].forEach(i=>$(i).value='');m.className='msg ok';m.textContent='เปลี่ยนรหัสผ่านเรียบร้อยแล้ว'});
+  });
+};
+
+/* ---------- login ---------- */
+const getAuth=()=>{try{return JSON.parse(localStorage.getItem(AK))}catch(e){return null}};
+function hashPw(pw,salt){
+  const s=salt+':'+pw;
+  if(window.crypto&&crypto.subtle&&window.TextEncoder)
+    return crypto.subtle.digest('SHA-256',new TextEncoder().encode(s)).then(b=>[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,'0')).join(''));
+  let h=5381;for(let i=0;i<s.length;i++)h=((h<<5)+h+s.charCodeAt(i))|0;
+  return Promise.resolve('x'+h);
+}
+const lmsg=t=>{$('lmsg').textContent=t};
+function setMode(m){
+  mode=m;const su=m==='setup';
+  $('ltitle').textContent=su?'🔐 ตั้งรหัสผ่านครั้งแรก':'🔐 เข้าสู่ระบบ';
+  $('lsub').textContent=su?'ผู้ดูแลระบบ: '+OWNER+' — ตั้งรหัสผ่านอย่างน้อย 6 ตัวอักษร':'ชมรมผู้สูงอายุ — กรุณาเข้าสู่ระบบเพื่อใช้งาน';
+  $('lpw2w').hidden=!su;$('lforgetw').hidden=su;$('lreset').hidden=true;
+  $('lgo').textContent=su?'ตั้งรหัสผ่านและเข้าใช้งาน':'เข้าสู่ระบบ';
+  $('lemail').value=su?OWNER:'';$('lemail').readOnly=su;$('lpw').value='';$('lpw2').value='';lmsg('');
+}
+function unlock(){
+  try{sessionStorage.setItem(SK,'1')}catch(e){}
+  const a=getAuth();who=a?a.email:OWNER;
+  document.body.classList.remove('locked');renderMembers();updBanner();show((location.hash||'').replace('#',''));window.scrollTo(0,0);
+}
+function lock(){try{sessionStorage.removeItem(SK)}catch(e){}document.body.classList.add('locked');document.body.classList.remove('rpt','rcp');$('rbar').hidden=true;$('receipt').hidden=true;setMode(getAuth()?'login':'setup')}
+function submitLogin(){
+  const email=$('lemail').value.trim().toLowerCase(),pw=$('lpw').value;
+  if(mode==='setup'){
+    if(email!==OWNER){lmsg('อีเมลไม่ถูกต้อง');return}
+    if(pw.length<6){lmsg('รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษร');return}
+    if(pw!==$('lpw2').value){lmsg('รหัสผ่านทั้งสองช่องไม่ตรงกัน');return}
+    const salt=String(Math.random()).slice(2)+Date.now();
+    hashPw(pw,salt).then(h=>{try{localStorage.setItem(AK,JSON.stringify({email,salt,hash:h}))}catch(e){lmsg('ไม่สามารถบันทึกรหัสผ่านลงเครื่องได้');return}unlock()});
+    return;
+  }
+  const a=getAuth();if(!a){setMode('setup');return}
+  hashPw(pw,a.salt).then(h=>{if(email===a.email&&h===a.hash){$('lpw').value='';unlock()}else lmsg('อีเมลหรือรหัสผ่านไม่ถูกต้อง')});
+}
+$('lgo').onclick=submitLogin;
+['lemail','lpw','lpw2'].forEach(i=>$(i).addEventListener('keydown',e=>{if(e.key==='Enter')submitLogin()}));
+$('lforget').onclick=()=>{$('lreset').hidden=false;$('lforgetw').hidden=true};
+$('lno').onclick=()=>{$('lreset').hidden=true;$('lforgetw').hidden=false};
+$('lyes').onclick=()=>{
+  try{localStorage.removeItem(K2);localStorage.removeItem(K1);localStorage.removeItem(AK)}catch(e){}
+  S={members:[],meta:{club:'',years:[],counter:{},log:[],lastBackup:''}};clearForm();setMode('setup');
+};
+$('logout').onclick=lock;
+
+{const mk=(id,after)=>{const d=document.createElement('div');d.className='pager noprint';d.id=id;after.closest('.wrap').after(d)};mk('pgr1',$('tb1'));mk('pgr2',$('tb2'))}
+$('bdate').value=today();
+const FS=[16,18,20,22,24,26];let fsI=1;
+try{const v=parseInt(localStorage.getItem('elderlyClubFs'),10);if(v>=0&&v<FS.length)fsI=v}catch(e){}
+const applyFs=()=>{document.documentElement.style.setProperty('--fs',FS[fsI]+'px');try{localStorage.setItem('elderlyClubFs',fsI)}catch(e){}};
+$('fsm').onclick=()=>{fsI=Math.max(0,fsI-1);applyFs()};$('fsp').onclick=()=>{fsI=Math.min(FS.length-1,fsI+1);applyFs()};applyFs();
+load();clearForm();renderMembers();
+{const a=getAuth();let ok=false;try{ok=sessionStorage.getItem(SK)==='1'}catch(e){}if(a&&ok)unlock();else setMode(a?'login':'setup')}
+})();
+</script>
+</body>
+</html>
